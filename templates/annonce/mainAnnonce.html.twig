@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<body>
+
+	<div class="container" style="text-align:center">
+		<a href="{{path ('recherche_annonce')}}" class="btn btn-primary">Filtrer vos recherches</a>
+	</div>
+			<div class="container">
+				<h1 class="my-3">Voici les annonces disponibles :</h1>
+
+				<div class="row">
+
+					{% for annonce in annonces %} {# il boucle via "user.annonces" et récupére chaque annonce qu'il va mettre dans annonce #}
+						{# Donc on appelle ca l'inclusion permettant d'éviter de duppliquer une grande quanité de code
+						dans plusieurs template différent #}
+						{% include 'annonce/affichageTypeAnnonce.html.twig' %}
+
+					{% endfor %}
+				</div>
+
+ 			</div>
+
+
+
+</body>
+{% endblock %}

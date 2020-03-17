@@ -1,0 +1,39 @@
+
+{# Ce fichier va permettre de ne pas duppliquer le code qui le contient car on l'utilise dans 
+le template main annonce et le template pageUtilisateur donc ca va eviter la dupication, facilite
+le changement du code, au lieu de changer sur chaque page, on modifie juste ici.#}
+
+{% set lienVersAnnonce = path('afficherAnnonce', {'slug':annonce.adresse}) %} <!--Constant permettant de ne pas repeter ce chemin a indiquer dans les 3 liens en dessous-->
+
+                <div class ="col-md-4 mb-3">
+                    <div class="card">
+                    {% if annonce.don == 'Vente' %} <!--changement d'affichage selon la vente ou le don-->
+                        <div class="card-header text-center">Un chat de la race <strong>{{annonce.race}}</strong>
+                        au prix de <strong>{{annonce.prix}}</strong> euros
+                        </div>
+                    {% else %}
+                <div class="card-header text-center">Un chat de la race <strong>{{annonce.race}}</strong>
+                a <strong>donner</strong>
+                        </div>
+                    {% endif %}	
+                        <a href="{{lienVersAnnonce}}"> <!--Ici on rend l'image cliquable et sa renvoi sur l'annonce (constante lienVersAnnonce)-->
+                        <img src= "{{annonce.coverImage}}" alt="Image du chat" style="height:200px; width:100%; display:block"><!--on bloque les images a une taille par défaut-->
+                <!--<a> est un lien et le href vers le chemin de la route sous le nom "afficherAnnonce" avec comme parametre du slug, le slug de l'annonce(correspond au champ adresse de la table annonce)-->
+                </a>
+                    <div class="card-body">
+                        <h4 class = "card-title">
+                        <a href="{{lienVersAnnonce}}"> <!--pareil ici on rend le titre cliquable et redirigant vers l'annonce-->
+                            {{annonce.titre}}
+                        </a>	
+                        </h4>
+                        <p class="card-text">
+                        <a href="{{lienVersAnnonce}}"><!--pareil ici on rend l'intro cliquable et redirigant vers l'annonce-->
+                            {{annonce.introduction}}
+                        </a>	
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{lienVersAnnonce}}" class="btn btn-primary">En savoir plus</a>
+                    </div>
+                    </div>
+                </div>

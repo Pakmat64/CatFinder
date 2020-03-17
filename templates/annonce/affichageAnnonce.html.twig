@@ -1,0 +1,97 @@
+        {% extends 'base.html.twig' %}
+
+
+
+
+        {% block body %}
+
+<body>
+
+    <div class="annonce-title" style="background-image: url({{annonce.coverImage}})">
+        <div class="container" >
+              <h1>{{annonce.titre}}</h1>
+              <p>{{annonce.introduction}}</p>
+
+            {% if annonce.don == 'Vente' %}
+                  <p class ="h2">
+            Un chat de la <strong>{{annonce.race}}</strong>
+                au prix de <strong>{{annonce.prix}}</strong> euros
+                  </p>
+            {% else %}
+                  <p class ="h2">
+            Un chat de la race <strong>{{annonce.race}}</strong>
+                a <strong>donner</strong>
+                  </p>
+            {% endif %}
+
+            {% if annonce.don == 'Vente' %}
+                <a href="#" class="btn btn-primary">Acheter</a>
+            {% else %}
+                <a href="#" class="btn btn-primary">Réserver le don</a>
+            {% endif %}
+            {% if annonce.auteur.id is same as(app.user.id) %} {# Si l'id du user qui a créé l'annonce est le meme que le user connecté actuellement alors on affiche les deux boutons sinon non #}
+            <!--Bouton redirigeant vers la modification de l'annonce-->
+                <a href="{{path ('formulaire_editer_annonce', {'slug':annonce.adresse}) }}" class="btn btn-primary">Modifier Annonce</a>
+            <!--Bouton permettant la suppresion de l'annonce-->
+                <a href="{{path ('SuppressionAnnonce', {'slug':annonce.adresse}) }}" class="btn btn-primary">Supprimer Annonce</a>
+            {% endif %}
+        </div>
+      </div>
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-8 mb-3">
+                  <div class="sautLigne"><p >{{annonce.contenu | raw}}</p>
+                  </div>
+                  
+                  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                    {% for image in annonce.imagess %}
+                      <li data-target="#carouselExampleIndicators" data-slide-to="{{loop.index0}}" {% if loop.first %}class="active"{% endif %}></li>
+                    {% endfor %}
+                    </ol>
+          <div class="carousel-inner">
+              {% for image in annonce.imagess %} <!--Liaison entre table annonce et image permet d'afficher toutes les photos de l'annonce-->
+            <div class="carousel-item {% if loop.first %} active {% endif %}"> <!--Ici cocnernant notre boucle, si c'est la premiere fois qu'on rentre dans la boucle on mettra active (occurence)-->
+              <img class="d-block w-100" src={{image.url}} alt="First slide">
+              <div class="carousel-caption d-none d-md-block">
+            <h5>{{annonce.titre}}</h5> <!--le for permet de récupérer chaque info de l'image lié a l'annonce-->
+            <p>{{image.caption}}</p>
+          </div> 
+            </div>
+          {% endfor %}
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+        </div>
+            </div>
+            <div class="col-md-4 mb-3 sautLigne">
+                <div class="row mb-3 align-items-center">
+                    <div class="col-3">
+                      <a href="{{path ('page_utilisateur', {'slug':annonce.auteur.slug}) }}">
+                        {# annonce.auteur permet d'etre lié aux attributs de la table user car c'est la clé étrangere #}
+                        <img src="{{annonce.auteur.avatar}}" class="avatar avatar-medium" alt="Avatar de {{annonce.auteur.nomEnEntier}}">
+                      </a>
+                    </div>
+                  <div class="col">
+                    <a href="{{path ('page_utilisateur', {'slug':annonce.auteur.slug}) }}">
+                        <h3>{{annonce.auteur.nomEnEntier}}</h3>
+                      <span class="badge badge-primary">{{ annonce.auteur.annonces | length }} annonce(s)</span> {# On va récupérer le nombre d'annonce via le filtre twig lenght #}
+                    </a>
+                  </div>
+                </div>
+                {{ annonce.auteur.description | raw }} {# le filtre raw va permettre d'afficher le texte brut en comptant les balises html s'il y en a  #}
+            </div>
+      </div>
+</div>
+
+</body>
+        {% endblock %}

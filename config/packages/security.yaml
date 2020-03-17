@@ -1,0 +1,44 @@
+security: 
+    encoders:
+        App\Entity\User:
+             algorithm: auto
+             cost: 12 #Le cost permet de rendre plus sécurisé le mot de passe (plus c'est grand mieux c'est)
+# https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory: { memory: null }
+        in_database: #Nouveau provider/fournisseur créée 
+            entity: #ce provider utilisera une entité/table donc le user  
+                class: App\Entity\User  ##Indication de l'entité utilisé pour voir ou son les utilisateurs
+                property: email  #Indication de la property de l'utilisateur qui va permettre son authentification, par comparaison des emails
+ 
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            anonymous: true
+
+            provider: in_database #On indique le fournisseur choisi, ou es ce qu'on va chercher les données de notre utilisateur
+
+            form_login: #Configuration de la fonctionnalité form_login# 
+                  login_path: login #Le chemin pour aller a la page de connexion c'esdt le chemin indiqué donc le controller          
+                  check_path: login #Préciser le chemin sur lequel on doit vérifier les informations de vérification du formulaire
+                 
+            logout:
+                path: compte_logout #On indique le chemin/controller a prendre de quand on écrit la route "/logout"
+                target: login #On indique ici la redirection après le logout
+            
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+         #- { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         #- { path: ^/profile, roles: ROLE_USER }
+

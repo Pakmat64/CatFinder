@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %} 
+
+<div class="creditCardForm">
+    <div class="bg-light p-3">
+        <h1>Paiement</h1>
+    </div>
+
+    <div class="container">
+        <form>
+            <div class="form-group owner">
+                <label for="owner">Nom</label>
+                <input type="text" class="form-control" id="owner">
+            </div>
+            <div class="form-group CVV">
+                <label for="cvv">Adresse</label>
+                <input type="text" class="form-control" id="cvv">
+            </div>
+            <div class="form-group" id="card-number-field">
+                <label for="cardNumber">Numéro de carte</label>
+                <input type="text" class="form-control" id="cardNumber">
+            </div>
+            <div class="form-group" id="expiration-date">
+                <label>Date d'expiration</label>
+                <select>
+                    <option value="01">Janvier</option>
+                    <option value="02">Fevrier </option>
+                    <option value="03">Mars</option>
+                    <option value="04">Avril</option>
+                    <option value="05">Mai</option>
+                    <option value="06">Juin</option>
+                    <option value="07">Juillet</option>
+                    <option value="08">Aout</option>
+                    <option value="09">Septembre</option>
+                    <option value="10">Octobre</option>
+                    <option value="11">Novembre</option>
+                    <option value="12">Decembre</option>
+                </select>
+                <select>
+                    <option value="16"> 2020</option>
+                    <option value="17"> 2021</option>
+                    <option value="18"> 2022</option>
+                    <option value="19"> 2023</option>
+                    <option value="20"> 2024</option>
+                    <option value="21"> 2025</option>
+                    
+                    
+                </select>
+            </div>
+            <div class="form-group row justify-content-center" id="pay-now">
+                <button type="submit" class="btn btn-primary" id="confirm-purchase">Confirmer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+ {% endblock %}

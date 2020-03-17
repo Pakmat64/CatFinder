@@ -1,0 +1,127 @@
+IMG.img1{ 
+    display: block;
+       margin-left: auto;
+       margin-right: auto }
+   
+       form.formCenter{
+           text-align: center;
+   
+       }
+    p.p1{
+        color:black
+    }
+   p.pFooter{
+   color:white
+   }
+   
+   h5.hFooter
+   {
+       
+   color:white
+   }
+   ul.ulFooter{
+   color:white
+   }
+   li.liFooter{
+   color:white
+   }
+   a.aFooter{
+   color:white
+   }
+   div.divFooter
+   {
+       color:white
+   }
+   div.espaceTop {
+    display: block;
+       padding-top: 1em;
+   }
+   div.espaceBot {
+       display: block;
+       padding-bottom: 30px;
+   }
+
+   div.paddingBotRighLeft{
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+
+   }
+
+
+   form.formMemeLigne{
+   display:inline
+   }
+   
+
+div.annonce-title{
+    padding: 3em;
+    background-size: cover;
+    background-position : center center;
+}
+
+div.container{
+    margin-top: 20px;
+}
+   
+div.annonce-title h1, div.annonce-title p{
+color: white;
+text-shadow: 3px 3px 3px rgba(0, 0, 0, 5);
+
+   }
+div.carousel-caption{
+    text-shadow: 3px 3px 3px rgba(0, 0, 0, 5);
+
+}
+
+#p pPadding{
+padding-bottom: 4em;
+
+}
+
+div.boutton-submit{
+    text-align:center;
+    padding-bottom : 2em;
+    
+}
+div.bordure{
+    border-width: 3px;
+    border-style: solid;
+    border-color : #593196;
+    border-radius: 10px;
+}
+
+.avatar{
+    max-width: 128px;
+    max-height: 128px;
+    border-radius:50% ;
+
+}
+
+.avatar-medium{
+    max-width: 85px;
+    max-height: 85px;
+}
+
+.avatar-mini{
+    max-width: 24px;
+    max-height: 24px;
+}
+
+div.sautLigne
+{    word-wrap: break-word; 
+}
+
+div.paddingTopAndBottom{
+    padding-bottom: 3em;
+    padding-top: 3em;
+
+}
+
+.alignerTexte{
+    text-align: center;
+}
+
+.arrondie {
+    border-radius:7px;
+    }

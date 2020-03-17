@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="bg-light p-3">
+        <h1>Votre Panier :</h1>
+    </div>
+
+    {% if items | length > 0 %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.product.title }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price * item.quantity }}</td>
+                        <td>
+                            <a href="{{path('cart_remove', {'id': item.product.id})}}" class="btn btn-danger btn-sm">X</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan = "3" class="text-right">Total : </td>
+                    <td>{{total}}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+         <div class="row justify-content-center" style="padding-bottom:30px">
+                <a href="{{path ('all_product') }}">
+                <button type="submit" class="btn btn-primary">Retour vers les produits</button>
+                </a>
+            </div>
+            <div class="row justify-content-center" style="padding-bottom:30px">
+                <a class="btn btn-primary" href="{{path('cart_pay')}}">Commander</a>
+            </div>
+    
+    {% else %}
+    <div class="container">
+        <div class="row justify-content-center" style="padding-bottom:30px">
+            <h1>Votre panier est vide !</h1>
+        </div>  
+              <div class="row justify-content-center" style="padding-bottom:30px">
+                <a href="{{path ('all_product') }}">
+                <button type="submit" class="btn btn-primary">Retour vers les produits</button>
+                </a>
+            </div>
+    </div>
+            
+    {% endif %}
+    
+{% endblock %}

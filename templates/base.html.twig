@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        
+        <meta charset="UTF-8">
+        <title>{% block title %}CatFinder{% endblock %}</title>
+        
+        <link rel="stylesheet" href="../../css/boostrap.min.css">
+        <link rel="stylesheet" href= "../../css/app.css">
+        <link rel="stylesheet" href= "{{asset('/font/font.face.css')}}">
+        <link rel="shortout icon" type="image/x-icon" href="../../catfinder.jpg" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+        <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+        <script src = "../../js/jquery.min.js"></script>
+        <script src = "../../js/boostrap.min.js"></script>
+        <script src = "../../js/popper.min.js"></script>
+        <script src = "../../css/boostrap.min.css"></script>
+        
+
+
+
+        {% block stylesheets %}{% endblock %}
+
+
+    </head>
+    
+ {% if app.user %}   {# Si  c'est un utilisateur connecté on affiche cette barre de navigation  #} 
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="{{path ('homepage') }} "> <strong>CatFinder</strong></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto"> <!--margin right (mr) auto-->
+            <li class="nav-item dropdown">
+                <a class="nav-link" href=" {{path ('homepage') }} ">Page d'acceuil</a>
+            </li>
+               <li class="nav-item">
+                <a class="nav-link" href="{{path ('liste_race')}}">Race Chat</a>
+            </li>
+             <li class="nav-item">
+                <a class="nav-link" href="{{path ('histoire_chats')}}">Histoire Chat</a>
+            </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                        Annonce
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink"> {# data-toggle permet d'activer le dropdown #}
+                         <a class="dropdown-item" href="{{path ('annonce') }}">Afficher annonces</a>
+                        <a class="dropdown-item" href="{{path ('formulaire_creer_annonce') }}">Créer une annonce</a>
+                    </div>
+                  </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{path ('all_product') }}">E-Commerce</a>
+            </li>
+           {# <li class="nav-item">
+                <a class="nav-link" href="#">Forum</a>
+            </li> #}
+            </ul>
+            <ul class="navbar-nav ml-auto" > <!--la classe indique qu'il est dans la navbar margin left (ml) auto-->
+
+                  <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="accountDropdownLink">
+                        <img src="{{app.user.avatar}}" class="avatar avatar-mini" alt="Avatar de {{app.user.nomEnEntier}}">
+                        {{app.user.nomEnEntier}}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdownLink"> {# data-toggle permet d'activer le dropdown #}
+                         <a class="dropdown-item" href="{{path ('afficher_compte') }}">Afficher mon profil</a>
+                        <a class="dropdown-item" href="{{path ('editer_profil') }}">Modifier informations</a>
+                        <a class="dropdown-item" href="{{path ('editer_password') }}">Changer mot de passe</a>
+                        <div class="dropdown-divider"></div>        
+                        <a class="dropdown-item" href="{{path ('compte_logout') }}">Déconnexion</a>
+                    </div>
+                  </li>
+            </ul>
+                {% else %} {# Sinon si  c'est un visiteur on affiche cette barre de navigation  #}
+
+                    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="{{path ('homepage') }} "> <strong>CatFinder</strong></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto"> <!--margin right (mr) auto-->
+                  <li class="nav-item">
+                      <a class="nav-link" href=" {{path ('homepage') }} ">Page d'acceuil</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{path ('liste_race')}}">Race Chat</a>
+                  </li>
+                  <li class="nav-item">
+                <a class="nav-link" href="{{path ('histoire_chats')}}">Histoire Chat</a>
+                  </li>
+              </ul>
+               <ul class="navbar-nav ml-auto" > <!--la classe indique qu'il est dans la navbar margin left (ml) auto-->
+              
+                  <li class="nav-item">
+                  <a href="{{path ('inscription_user') }}" class="nav-link">Inscription</a>
+
+                  </li>
+
+                  <li class="nav-item">
+                  <a href="{{path ('login') }}" class="nav-link">Connexion</a>
+
+                  </li>
+                </ul>
+                {% endif %}
+            
+            
+        </div>
+        </nav>
+<!--partie Notification alertant reussite ou pas-->
+        {% for label, messages in app.flashes %} <!--app variable globale avec pleins d'infos et flashes pour focus sur les flashes-->
+      <!--Boucle for qui boucle dans app.flashes autant de fois qu'il y a de flashes en récupérant la clé (success ou danger) qu'il rentre dans label et le message dans messages-->
+      <div class="container">
+        <div class="alert alert-{{label}}"> <!--div avec une classe avec le nom de la flashes pour afficher une classe couleur correspondant au déroulement (vert si success, rouge si error)-->
+            {% for message in messages %} <!--boucle foir bouclant et récupérant les messages des flashes-->
+            <p>{{message | raw}}</p> <!--affichage du message et le filtre raw permet d'enlever la protection de twig sur le contenu HTML (affichage des strongs dans les flashs)-->
+             {% endfor %}
+        </div>
+      
+      </div>
+
+        {% endfor %}
+        
+
+        {% block body %} <body><h1>ERROR PAS DE BODY DANS PAGE</h1> </body>{% endblock %}
+        
+        {% block footer %} <!--La position des block compte, ici mettre footer en dessous de body important-->
+        <!-- Footer -->
+<footer class="page-footer font-small blue pt-4" style="background: #593196">
+
+  <!-- Footer Links -->
+  <div class="container text-center text-md-left">
+
+    <!-- Grid row -->
+    <div class="row justify-content-center">
+
+      <!-- Grid column phrase de fin-->
+      <div class="col-md-4 mt-md-0 mt-3 sautLigne">
+
+        <!-- Content -->
+        <h5 class="text-uppercase hFooter alignerTexte">Phrase de fin <i class="material-icons">archive</i></h5>
+        <p class="pFooter">Nous espérons que vous allez passez de bons moments sur notre 
+        site. Comme par exemple faire des rencontres amicales sur notre forum ou 
+        trouver un ami félin qui vous correspond. Si vous avez le moindre problème ou demande
+        toute simple, n'hésitez pas a nous contacter aux différents endroits indiqués sur votre droite ! <i class='far fa-laugh-wink'></i></p>
+
+      </div>
+      <!-- Grid column -->
+
+      <hr class="clearfix w-100 d-md-none pb-3">
+
+      <!-- Grid column Réseaux sociaux -->
+      <div class="col-md-2 mb-md-0 mb-3">
+
+        <!-- Links -->
+        <h5 class="text-uppercase hFooter alignerTexte">Réseaux <i class='fas fa-comment-alt'></i></h5>
+
+        <div class="row justify-content-center">
+              <h8 style="color:white"><strong>Mokhtar</strong></h8>
+        </div>  
+        <div class="row justify-content-center">
+          <a href="https://www.facebook.com/bmm.mokhtar" type="button" target="_blank" class="btn-floating btn-small btn-fb"><i class="fa fa-facebook-official" style="font-size:24px"></i></a>
+        </div>
+         <div class="row justify-content-center">
+              <h8 style="color:white"><strong>Pako</strong></h8>
+        </div>  
+        <div class="row justify-content-center">
+				<a href="https://www.facebook.com/pako.mathieu" type="button" target="_blank" class="btn-floating btn-small btn-fb"><i class="fa fa-facebook-official" style="font-size:24px"></i></a>
+        </div>
+
+          <div class="row justify-content-center">
+              <h8 style="color:white"><strong>Stéfan</strong></h8>
+        </div>  
+        <div class="row justify-content-center">
+				<a href="https://www.facebook.com/stefan.menard.5" type="button" target="_blank" class="btn-floating btn-small btn-fb"><i class="fa fa-facebook-official" style="font-size:24px"></i></a>
+        </div>
+
+
+      </div>
+      <!-- Grid column -->
+
+      <!-- Grid column Numéro -->
+      <div class="col-md-2 mb-md-0 mb-3">
+
+        <!-- Links -->
+        <h5 class="text-uppercase hFooter alignerTexte">Numero <i class="material-icons" style="font-size:24px">call</i></h5>
+        <div class="row justify-content-center">
+              <h8 style="color:white"><strong>Mokhtar</strong></h8>
+        </div>  
+        <div class="row justify-content-center">
+          <a class="aFooter" href="#!">momo64@gmail.com</a>
+        </div>
+         <div class="row justify-content-center">
+              <h8 style="color:white"><strong>Pako</strong></h8>
+        </div>  
+        <div class="row justify-content-center">
+          <a class="aFooter" href="#!">pako64@gmail.com</a>
+        </div>
+
+          <div class="row justify-content-center">
+              <h8 style="color:white"><strong>Stéfan</strong></h8>
+        </div>  
+        <div class="row justify-content-center">
+          <a class="aFooter" href="#!">stefan64@gmail.com</a>
+        </div>
+
+      </div>
+      <!-- Grid column Mail -->
+       <div class="col-md-2 mb-md-0 mb-3">
+
+        <!-- Links -->
+        <h5 class="text-uppercase hFooter alignerTexte" >Mail <i class="material-icons">email</i></h5>
+          <div class="row justify-content-center">
+              <h8 style="color:white"><strong>Mokhtar</strong></h8>
+        </div>  
+        <div class="row justify-content-center">
+          <a class="aFooter" href="#!">momo64@gmail.com</a>
+        </div>
+         <div class="row justify-content-center">
+              <h8 style="color:white"><strong>Pako</strong></h8>
+        </div>  
+        <div class="row justify-content-center">
+          <a class="aFooter" href="#!">pako64@gmail.com</a>
+        </div>
+
+          <div class="row justify-content-center">
+              <h8 style="color:white"><strong>Stéfan</strong></h8>
+        </div>  
+        <div class="row justify-content-center">
+          <a class="aFooter" href="#!">stefan64@gmail.com</a>
+        </div>
+
+
+      </div>
+
+    </div>
+    <!-- Grid row -->
+
+  </div>
+  <!-- Footer Links -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3 divFooter">© 2020 Copyright
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer --> {% endblock %}
+
+
+        {% block javascripts %}{% endblock %}
+
+ 
+</html>

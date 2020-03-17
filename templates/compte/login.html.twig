@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<body>
+    <div class="container">
+
+    <div class="row">  
+            <div class="col-md-3">&nbsp;</div>
+            <div class="col-md-6">
+                    <div class="bg-light py-3 px-3">
+                            {% if error %}
+                                <div class="alert alert-danger">
+                                
+                                {#{{ error.messageKey | trans(error.messagedata, 'security') }};#}
+
+                                Une erreur est survenue, le nom d'utilisateur ou alors le mot de passe est invalide
+                                
+                                </div>
+
+                            {% endif %}
+                    
+                            <h1>Connectez vous</h1>
+                            
+                                <form action=" {{path ('login')}} " method="POST"> <!--Quand le formulaire est executé on le redirige vers le controller via son et le path-->
+
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <!--Symfony s'attend a des champs précis : _username et _password-->
+                                        <input type="text" name="_username"  id="email" class="form-control" value="{{ lastMail }}" 
+                                        placeholder="Adresse email..." required> <!--required indique l'obligation de remplir cette input-->
+                                        <!--Le value lasUsername permet de garder écrit dans l'input le dernier email écrit lors de la connexion au formulaire-->
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password">Mot de passe</label>
+                                        <!--Symfony s'attend a des champs précis : _username et _password-->
+                                        <input type="password" name="_password" id="password" class="form-control" 
+                                        placeholder="Mot de passe .." required>
+                                    </div>
+
+                                    <div class="form-group">
+                                    <button type="submit" class="btn btn-success">Connexion</button>
+
+                                    </div>
+
+                                </form>
+                    </div>
+                        
+            </div>
+            </div>
+    </div>
+</body>
+{% endblock %}
+
+{% block footer %} {% endblock %}

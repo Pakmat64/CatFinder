@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container bordure" style="text-align:center">
+
+
+ {{ form_start(form_recherche) }}
+
+
+  {{ form_end(form_recherche) }}
+
+
+</div>
+
+        <div class="container">
+          
+            {% if app.request.method == 'POST' %}
+      
+            {% if searchAnnonces | length == 0 %}
+            <h1 class="my-3">Aucun résultat pour votre recherche</h1>
+            {% else %}
+            <h1 class="my-3">Résultat de la recherche</h1>
+
+
+          <div class="row">
+          {% for searchAnnonce in searchAnnonces %} {# boucle for permettant de boucler sur les résultats récupéré dans la variable searchAnnonces via le select dans le repositoryAnnonce et lancé dans le controller  #}
+      
+          {% set lienVersAnnonce = path('afficherAnnonce', {'slug':searchAnnonce.adresse}) %} <!--Constant permettant de ne pas repeter ce chemin a indiquer dans les 3 liens en dessous-->
+
+            <div class ="col-md-4 mb-3">
+              <div class="card">
+              {% if searchAnnonce.don == 'Vente' %} <!--changement d'affichage selon la vente ou le don-->
+                <div class="card-header text-center">Un chat de la race <strong>{{searchAnnonce.race}}</strong>
+                au prix de <strong>{{searchAnnonce.prix}}</strong> euros
+                </div>
+                {% else %}
+            <div class="card-header text-center">Un chat de la race <strong>{{searchAnnonce.race}}</strong>
+            a <strong>donner</strong>
+                </div>
+              {% endif %}	
+                <a href="{{lienVersAnnonce}}"> <!--Ici on rend l'image cliquable et sa renvoi sur l'annonce (constante lienVersAnnonce)-->
+                <img src= "{{searchAnnonce.coverImage}}" alt="Image du chat" style="height:200px; width:100%; display:block"><!--on bloque les images a une taille par défaut-->
+              <!--<a> est un lien et le href vers le chemin de la route sous le nom "afficherAnnonce" avec comme parametre du slug, le slug de l'annonce(correspond au champ adresse de la table annonce)-->
+            </a>
+              <div class="card-body">
+                <h4 class = "card-title">
+                <a href="{{lienVersAnnonce}}"> <!--pareil ici on rend le titre cliquable et redirigant vers l'annonce-->
+                  {{searchAnnonce.titre}}
+                </a>	
+                </h4>
+                <p class="card-text">
+                <a href="{{lienVersAnnonce}}"><!--pareil ici on rend l'intro cliquable et redirigant vers l'annonce-->
+                  {{searchAnnonce.introduction}}
+                </a>	
+                </p>
+              </div>
+              <div class="card-footer">
+                <a href="#" class="btn btn-primary">En savoir plus</a>
+              </div>
+              </div>
+            </div>
+            {% endfor %}
+            {% endif %}  
+                
+            </div>
+          </div>
+          {% endif %}  
+        </div>
+   
+</div>
+
+
+ 
+{% block javascript %}
+
+<script>
+  
+
+function CacherPrix(){ //permet de cacher les prix mini et maxi quand on passe sur don
+
+	
+    var b=document.getElementById("rechercher_annonce_Prix_mini");
+	var c=document.getElementById("rechercher_annonce_Prix_maximum");
+    var a = document.getElementById("rechercher_annonce_don");
+
+   if(a.value == "Don") //a.value correspond a une donnée du champs annonce_don pour voir les différentes données
+                        //allé voir le code source de la page(value correspond au element de la liste déroulante donc si cliche sur Don, on rentre dans ce if)
+   {
+	   
+      b.style.visibility='hidden'; //on cache la visibilité
+      b.style.display='none'; // Permet de masquer l'affichage du bloc
+	  c.style.visibility='hidden'; //on cache la visibilité
+      c.style.display='none'; // Permet de masquer l'affichage du bloc
+   }
+   else
+   {
+      b.style.visibility='visible '; //le rend visible
+      b.style.display='block'; //re affiche le bloc de l'element par rapport a son id (annonce_prix) récupéré dans la var b
+      c.style.visibility='visible '; //le rend visible
+      c.style.display='block'; //re affiche le bloc de l'element par rapport a son id (annonce_prix) récupéré dans la var b
+
+   }
+}
+
+  
+    
+   // alert(document.getElementById("rechercher_annonce_don").name);
+//document.getElementById("annonce_don").addEventListener("change",function(){alert('hello');});
+
+//document.getElementById("annonce_don").addEventListener("change", CacherPrix); 
+//                                    OU
+addEventListener("change", CacherPrix); //event lancé quand on change la valeur de la liste déroulante, les traitements sont fait via l'appel de la fonction CacherPrix
+    
+
+    </script>
+    
+    {% endblock %}
+
+{% endblock %}
+

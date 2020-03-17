@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+
+ {% form_theme form _self %}
+
+{% block body %}
+
+ <div class="container" style = "text-align:center">
+    <h1>Modifier l'annonce : {{annonce.titre}} </h1>
+        </div>
+    <div class="container">
+
+        {{ form_start(form) }} <!--ici form correspond a l'ensemble des champs du formulaire-->
+
+        {{ form_widget(form) }}
+
+    <div class="container boutton-submit" >
+        <button type="submit" class="btn btn-primary" style = >Modification de l'annonce</button>
+
+   
+    </div>
+        {{ form_end(form) }}
+    
+
+                    {% block javascript %}
+                    <script>
+                
+
+                function CacherPrix(){
+
+                    var b=document.getElementById("annonce_prix");
+                    var a = document.getElementById("annonce_don");
+
+                if(a.value == "Don") //a.value correspond a une donnée du champs annonce_don pour voir les différentes données
+                                        //allé voir le code source de la page(value correspond au element de la liste déroulante donc si cliche sur Don, on rentre dans ce if)
+                {
+                    b.style.visibility='hidden'; //on cache la visibilité
+                    b.style.display='none'; // Permet de masquer l'affichage du bloc
+                }
+                else
+                {
+                    b.style.visibility='visible '; //le rend visible
+                    b.style.display='block'; //re affiche le bloc de l'element par rapport a son id (annonce_prix) récupéré dans la var b
+                }
+                }
+
+                
+                    
+                // alert(document.getElementById("annonce_don").name);
+                //document.getElementById("annonce_don").addEventListener("change",function(){alert('hello');});
+
+                //document.getElementById("annonce_don").addEventListener("change", CacherPrix); 
+                //                                    OU
+                addEventListener("change", CacherPrix); //event lancé quand on change la valeur de la liste déroulante, les traitements sont fait via l'appel de la fonction CacherPrix
+                    
+
+                    </script>
+                    
+                    {% endblock %}
+
+
+                </div>
+
+
+
+
+                        {% endblock %}
+                {% block _annonce_imagess_widget %}
+                <p>Ici, vous pouvez ajouter vos propres images !</p>
+
+                {{ form_widget(form) }}
+
+                <input type="hidden" id="widgets-counter" value="0">
+
+                <div class="form-group">
+                    <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
+                </div>
+
+                {% endblock %}
+
+                {% block _annonce_imagess_entry_row %}
+
+                {{ form_widget(form) }}
+
+                                {% endblock %}
+
+                                {% block _annonce_imagess_entry_widget %}
+
+                                <div class="form-group" id="block_{{id}}">
+                                <div class="row">
+                                
+                                <div class="col-10">
+                                <div class="row">
+                                        <div class="col">
+                                            {{ form_widget(form.url) }}
+                                        </div>
+                                        <div class="col">
+                                            {{ form_widget(form.caption) }}
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                                <div class="col-2">
+                                
+                                <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-primary">X</button>
+                                </div>
+                        </div> 
+                    </div>
+
+                {% endblock %}
+
+                {% block javascripts %} {# Block javascript qui fait apparaitre la possibilité de mettre une nouvelle image, grâce au prototype du collection type #}
+
+                <script>
+                 $('#add-image').click(function(){
+                //Je récupère le numéro des futurs champs que je vais créer
+                const index = $('#widgets-counter').val();
+
+
+
+
+                //Je récupère le prototype des entrées
+                const tmpl = $('#annonce_imagess').data('prototype').replace(/__name__/g, index);
+
+                //J'injecte ce code au sein de la div
+                $('#annonce_imagess').append(tmpl);
+
+                $('#widgets-counter').val(index + 1);
+
+                //Je gère le bouton supprimer
+                handleDeleteButtons();
+
+                });
+                {# Boutton de suppresion des images supplémentaire rajoutées #}
+                function handleDeleteButtons(){ 
+                    $('button[data-action="delete"]').click(function(){
+                        const target = this.dataset.target;
+                        $(target).remove();
+                    });
+
+                }
+
+                handleDeleteButtons();
+                </script>
+
+                {% endblock %}
+
+    
+
+
